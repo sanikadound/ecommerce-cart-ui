@@ -21,7 +21,8 @@ let appliedCoupon = null;
 const COUPONS = {
     "SAVE20": { type: "percent", value: 0.20, label: "20% Off Subtotal" },
     "TECH15": { type: "flat", value: 15.00, label: "$15 Flat Off" },
-    "FREESHIP": { type: "freeship", value: 0.00, label: "Free Shipping ($10 Saved)" }
+    "FREESHIP": { type: "freeship", value: 0.00, label: "Free Shipping ($10 Saved)" },
+    "WELCOME50": { type: "flat", value: 50.00, label: "$50 VIP Welcome Discount" }
 };
 
 // 2. DOM Elements
