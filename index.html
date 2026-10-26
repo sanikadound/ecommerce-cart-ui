@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopSphere - Modern E-Commerce Checkout & Cart UI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🛍️</span>
+                <span class="logo-text">ShopSphere <span>OpenCommerce</span></span>
+            </div>
+            <div class="nav-badges">
+                <span class="badge status-badge">🟢 Live Cart Engine</span>
+                <span class="cart-pill" id="cartNavPill">Cart: <strong id="cartItemCount">3</strong> items</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Products Section -->
+        <section class="products-section">
+            <div class="section-header">
+                <h2>Featured Products</h2>
+                <p>Select products to test real-time cart recalculations and discount stacking.</p>
+            </div>
+            <div class="product-grid" id="productGrid">
+                <!-- Dynamically populated via app.js -->
+            </div>
+        </section>
+
+        <!-- Cart & Checkout Sidebar -->
+        <aside class="cart-section">
+            <div class="cart-card">
+                <div class="cart-header">
+                    <h3>Order Summary</h3>
+                    <button class="btn-text" id="clearCartBtn">Clear All</button>
+                </div>
+
+                <!-- Items list -->
+                <div class="cart-items" id="cartItemsList">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Coupon Section (The Solved Enhancement) -->
+                <div class="coupon-box">
+                    <label for="couponInput">Have a Promotional Code?</label>
+                    <div class="coupon-input-group">
+                        <input type="text" id="couponInput" placeholder="e.g. SAVE20, TECH15, FREESHIP" autocomplete="off">
+                        <button class="btn-secondary" id="applyCouponBtn">Apply</button>
+                    </div>
+                    <div class="coupon-feedback" id="couponFeedback"></div>
+                    <div class="available-coupons">
+                        <span>Available Coupons:</span>
+                        <button class="chip" data-code="SAVE20">SAVE20 (-20%)</button>
+                        <button class="chip" data-code="TECH15">TECH15 (-$15)</button>
+                        <button class="chip" data-code="FREESHIP">FREESHIP ($0 Ship)</button>
+                    </div>
+                </div>
+
+                <!-- Tax & Shipping Configuration -->
+                <div class="tax-box">
+                    <label for="regionSelect">Delivery Region (Dynamic Tax):</label>
+                    <select id="regionSelect">
+                        <option value="0.05">Standard Zone (5% GST)</option>
+                        <option value="0.12">Metro Express Zone (12% Tax)</option>
+                        <option value="0.18">Special Handling Zone (18% Tax)</option>
+                        <option value="0.00">Duty-Free / Export Zone (0% Tax)</option>
+                    </select>
+                </div>
+
+                <!-- Pricing Breakdown -->
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Items Subtotal:</span>
+                        <strong id="subtotalDisplay">$0.00</strong>
+                    </div>
+                    <div class="price-row discount-row" id="discountRow" style="display: none;">
+                        <span>Promotional Discount:</span>
+                        <strong id="discountDisplay">-$0.00</strong>
+                    </div>
+                    <div class="price-row">
+                        <span>Estimated Sales Tax:</span>
+                        <strong id="taxDisplay">$0.00</strong>
+                    </div>
+                    <div class="price-row">
+                        <span>Standard Shipping:</span>
+                        <strong id="shippingDisplay">$10.00</strong>
+                    </div>
+                    <hr class="divider">
+                    <div class="price-row total-row">
+                        <span>Final Order Total:</span>
+                        <strong id="totalDisplay">$0.00</strong>
+                    </div>
+                </div>
+
+                <!-- Checkout CTA -->
+                <button class="btn-primary btn-block" id="openCheckoutModalBtn">
+                    Proceed to Secure Checkout 🔒
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Finalize Your Order</h3>
+                <button class="btn-close" id="closeCheckoutModalBtn">&times;</button>
+            </div>
+            <form id="checkoutForm" novalidate>
+                <div class="form-group">
+                    <label for="custName">Full Name</label>
+                    <input type="text" id="custName" placeholder="Sanika Dound" required>
+                    <span class="error-msg" id="nameError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="custEmail">Email Address</label>
+                    <input type="email" id="custEmail" placeholder="sanika@example.com" required>
+                    <span class="error-msg" id="emailError"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-2">
+                        <label for="cardNumber">Card Number (16 Digits)</label>
+                        <input type="text" id="cardNumber" placeholder="4532 8901 2345 6789" maxlength="19" required>
+                        <span class="error-msg" id="cardError"></span>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="cardExpiry">MM/YY</label>
+                        <input type="text" id="cardExpiry" placeholder="12/28" maxlength="5" required>
+                        <span class="error-msg" id="expiryError"></span>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="cardCvv">CVV</label>
+                        <input type="password" id="cardCvv" placeholder="123" maxlength="3" required>
+                        <span class="error-msg" id="cvvError"></span>
+                    </div>
+                </div>
+
+                <div class="modal-summary">
+                    <span>Payable Amount:</span>
+                    <strong id="modalTotalPayable">$0.00</strong>
+                </div>
+
+                <button type="submit" class="btn-primary btn-block">Confirm & Pay Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Toast Notification -->
+    <div class="toast" id="successToast">
+        <span class="toast-icon">✅</span>
+        <div class="toast-content">
+            <h4>Order Placed Successfully!</h4>
+            <p>Thank you, your order #SP-94821 has been processed.</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
